@@ -139,6 +139,66 @@ Duplicate landmark vectors were identified and removed.
 
 ---
 
+## Modeling and Evaluation
+
+Three machine learning models were trained and evaluated using the cleaned landmark dataset.
+
+### Training Pipeline
+
+Dataset
+
+↓
+
+Label Encoding
+
+↓
+
+Stratified Train/Test Split
+
+↓
+
+SMOTE (Training Set Only)
+
+↓
+
+Model Training
+
+↓
+
+Cross Validation
+
+↓
+
+Evaluation
+
+### Models Evaluated
+
+| Model              | Cross Validation Accuracy | Test Accuracy |
+| ------------------ | ------------------------- | ------------- |
+| Random Forest      | 92.55%                    | 92.88%        |
+| XGBoost            | 94.37%                    | 94.04%        |
+| MLP Neural Network | 96.94%                    | 97.22%        |
+
+### Selected Model
+
+The MLP Neural Network achieved the highest performance and was selected as the final production model.
+
+### Data Leakage Prevention
+
+To ensure a fair evaluation:
+
+* Train/Test split was performed before SMOTE.
+* SMOTE was applied only on the training set.
+* Stratified sampling was used.
+* 5-Fold Cross Validation was performed.
+
+### Final Model Assets
+
+* MLP Classifier
+* StandardScaler
+* Label Encoder
+
+
 ## Current Progress
 
 ###  Completed
@@ -148,31 +208,19 @@ Duplicate landmark vectors were identified and removed.
 - [x] Data Preparation
 - [x] Landmark Extraction
 - [x] Dataset Cleaning
-
-###  Next Steps
-
-- [ ] Label Encoding
-- [ ] Train/Test Split
-- [ ] Random Forest Training
-- [ ] Model Evaluation
-- [ ] Model Comparison
-- [ ] Real-Time Deployment
+- [x] Modeling
 
 ---
 
-## Technologies
+# Technologies
 
 | Category | Tools |
 |----------|-------|
 | Language | Python |
 | Computer Vision | OpenCV, MediaPipe |
 | Data Processing | Pandas, NumPy |
-| Machine Learning | Scikit-learn |
+| Machine Learning | Scikit-learn, XGBoost, Imbalanced-Learn |
+| Model Persistence | Joblib |
 
 ---
 
-## Project Status
-
->  **Data Preparation Completed**
-> 
->  **Next Phase:** Modeling
