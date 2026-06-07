@@ -1,15 +1,19 @@
 # SignSpeak
 
-Real-Time Yemeni Sign Language Recognition System.
+**Real-Time Yemeni Sign Language Recognition System**
+
+---
 
 ## Project Overview
 
 SignSpeak is a real-time Yemeni Sign Language recognition system that converts sign gestures into Arabic text and Arabic speech.
 
-The system uses MediaPipe Hand Landmarks and Machine Learning classifiers instead of raw-image deep learning models to improve generalization and reduce overfitting.
+The system uses **MediaPipe Hand Landmarks** and **Machine Learning classifiers** instead of raw-image deep learning models to improve generalization and reduce overfitting.
 
+---
 
 ## Project Pipeline
+
 
 Image
 
@@ -50,20 +54,29 @@ Arabic Text Display
 Arabic Text-To-Speech
 
 
+
+---
+
 ## Dataset
 
-* 32 Yemeni Sign Language classes
-* 24,245 original images
-* Black background images
-* Based on the Unified Yemeni Sign Language Dictionary
+| Metric | Value |
+|--------|-------|
+| Classes | 32 Yemeni Sign Language classes |
+| Original Images | 24,245 |
+| Background | Black background images |
+| Source | Unified Yemeni Sign Language Dictionary |
+
+---
 
 ## Project Structure
 
+```
+
 SignSpeak/
 │
-|── app/
+├── app/
 │
-│── models/
+├── models/
 │
 ├── scripts/
 │   │
@@ -79,13 +92,15 @@ SignSpeak/
 │   │
 │   └── deployment/
 │
-│── README.md
-|
-|── .gitignore
+├── README.md
+│
+├── .gitignore
 │
 └── requirements.txt
 
+```
 
+---
 
 ## Data Preparation
 
@@ -93,22 +108,20 @@ SignSpeak/
 
 MediaPipe Hands was used to extract:
 
-* 21 hand landmarks
-* x, y, z coordinates
+- **21 hand landmarks**
+- **x, y, z coordinates**
 
-Total Features:
-
-63 Features
+**Total Features:** `63 Features`
 
 ---
 
 ### Landmark Dataset
 
-After extraction:
-
-* Original Images: 24,245
-* Successful Landmark Samples: 19,918
-* Failed Detections: 4,327
+| Metric | Count |
+|--------|-------|
+| Original Images | 24,245 |
+| Successful Landmark Samples | 19,918 |
+| Failed Detections | 4,327 |
 
 ---
 
@@ -116,52 +129,50 @@ After extraction:
 
 Duplicate landmark vectors were identified and removed.
 
-Results:
+| Stage | Samples |
+|-------|---------|
+| Before Cleaning | 19,918 |
+| After Cleaning | 18,186 |
+| Removed Duplicates | 1,732 |
 
-* Before Cleaning: 19,918 samples
-* After Cleaning: 18,186 samples
-* Removed Duplicates: 1,732 samples
-
-Final Dataset:
-
-data/landmarks_dataset_clean.csv
+**Final Dataset:** `data/landmarks_dataset_clean.csv`
 
 ---
-### Current Progress
 
-### Completed
+## Current Progress
 
-* Business Understanding
-* Data Understanding
-* Data Preparation
-* Landmark Extraction
-* Dataset Cleaning
+###  Completed
 
-### Next Step
+- [x] Business Understanding
+- [x] Data Understanding
+- [x] Data Preparation
+- [x] Landmark Extraction
+- [x] Dataset Cleaning
 
-* Label Encoding
-* Train/Test Split
-* Random Forest Training
-* Model Evaluation
-* Model Comparison
-* Real-Time Deployment
+###  Next Steps
+
+- [ ] Label Encoding
+- [ ] Train/Test Split
+- [ ] Random Forest Training
+- [ ] Model Evaluation
+- [ ] Model Comparison
+- [ ] Real-Time Deployment
 
 ---
 
 ## Technologies
 
-* Python
-* OpenCV
-* MediaPipe
-* Pandas
-* NumPy
-* Scikit-learn
+| Category | Tools |
+|----------|-------|
+| Language | Python |
+| Computer Vision | OpenCV, MediaPipe |
+| Data Processing | Pandas, NumPy |
+| Machine Learning | Scikit-learn |
 
 ---
 
 ## Project Status
 
-Data Preparation Completed
-
-Next Phase: Modeling
-
+>  **Data Preparation Completed**
+> 
+>  **Next Phase:** Modeling
