@@ -32,3 +32,9 @@ env/
 
 .DS_Store
 Thumbs.db
+
+# Generated datasets
+data/*.csv
+
+# Trained Models
+models/
