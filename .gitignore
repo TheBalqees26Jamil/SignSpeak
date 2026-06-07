@@ -1,0 +1,34 @@
+# Dataset
+
+dataset/
+landmarks_raw/
+data/
+
+# Models
+
+models/*.pkl
+models/*.joblib
+
+# Python Cache
+
+**pycache**/
+*.pyc
+
+# Virtual Environments
+
+venv/
+.venv/
+env/
+
+# VS Code
+
+.vscode/
+
+# Jupyter
+
+.ipynb_checkpoints/
+
+# OS Files
+
+.DS_Store
+Thumbs.db
