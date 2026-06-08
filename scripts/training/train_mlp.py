@@ -27,7 +27,9 @@ from imblearn.over_sampling import SMOTE
 from imblearn.pipeline import Pipeline
 
 
-df = pd.read_csv("data/landmarks_dataset_clean.csv")
+df = pd.read_csv(
+    "data/landmarks_dataset_clean.csv"
+)
 
 X = df.drop("label", axis=1)
 y = df["label"]
