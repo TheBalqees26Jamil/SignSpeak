@@ -1,44 +1,47 @@
 import os
 import pandas as pd
 
-INPUT_FOLDER = "landmarks_raw"
-OUTPUT_FOLDER = "data"
-
-os.makedirs(OUTPUT_FOLDER, exist_ok=True)
+INPUT_FOLDER = "data/landmarks_raw"
+OUTPUT_FILE = "data/landmarks_dataset.csv"
 
 all_dataframes = []
 
-for file in os.listdir(INPUT_FOLDER):
+files = sorted(os.listdir(INPUT_FOLDER))
 
-    if file.endswith(".csv"):
+for file in files:
 
-        file_path = os.path.join(INPUT_FOLDER, file)
+    if not file.endswith(".csv"):
+        continue
 
-        df = pd.read_csv(file_path)
+    path = os.path.join(
+        INPUT_FOLDER,
+        file
+    )
 
-        all_dataframes.append(df)
+    df = pd.read_csv(path)
 
-        print(f"Loaded: {file} ({len(df)} samples)")
+    all_dataframes.append(df)
 
-merged_df = pd.concat(
+    print(
+        f"{file:<25} {len(df)} samples"
+    )
+
+dataset = pd.concat(
     all_dataframes,
     ignore_index=True
 )
 
-output_path = os.path.join(
-    OUTPUT_FOLDER,
-    "landmarks_dataset.csv"
-)
-
-merged_df.to_csv(
-    output_path,
+dataset.to_csv(
+    OUTPUT_FILE,
     index=False
 )
 
-print("\n" + "="*40)
-print("Dataset Merged Successfully")
-print("="*40)
-print("Total Samples :", len(merged_df))
-print("Total Features:", len(merged_df.columns)-1)
-print("Total Classes :", merged_df["label"].nunique())
-print(f"Saved To      : {output_path}")
+print("\n" + "=" * 60)
+print("FINAL DATASET")
+print("=" * 60)
+
+print("Samples :", len(dataset))
+print("Features:", dataset.shape[1] - 1)
+
+print("\nSaved To:")
+print(OUTPUT_FILE)
