@@ -1,146 +1,83 @@
+import sys
+from pathlib import Path
+
+ROOT_DIR = Path(__file__).resolve().parents[2]
+sys.path.append(str(ROOT_DIR))
+
 import cv2
-import joblib
 import mediapipe as mp
-import numpy as np
-from collections import deque, Counter
 
-# =====================================
-# LOAD MODEL
-# =====================================
 
-model = joblib.load("models/mlp_model/mlp_best.pkl")
-scaler = joblib.load("models/mlp_model/scaler.pkl")
-encoder = joblib.load("models/encoders/label_encoder.pkl")
+from sign_recognition import (
+    predict_sign,
+    reset_on_no_hand,
+    clear_sentence,
+    get_sentence
+)
 
-# =====================================
-# MEDIAPIPE
-# =====================================
+
+# ==================================================
+# MEDIAPIPE ( For only testing the webcam feed and hand detection )
+# ==================================================
 
 mp_hands = mp.solutions.hands
-
 hands = mp_hands.Hands(
     static_image_mode=False,
-    max_num_hands=1,
+    max_num_hands=2,
     min_detection_confidence=0.5,
     min_tracking_confidence=0.5
 )
-
 mp_draw = mp.solutions.drawing_utils
 
-# =====================================
-# SMOOTHING BUFFER
-# =====================================
 
-pred_buffer = deque(maxlen=10)
-
-# threshold for unknown detection
-CONF_THRESHOLD = 0.70
-
-# =====================================
-# CAMERA
-# =====================================
 
 cap = cv2.VideoCapture(0)
 
-stable_prediction = "Waiting..."
-
 while True:
-
     success, frame = cap.read()
     if not success:
         break
 
     image_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
     results = hands.process(image_rgb)
 
-    prediction_text = "No Hand"
+    display_text = "Waiting..."
     confidence_text = ""
+    sentence_text = get_sentence()
 
     if results.multi_hand_landmarks:
+        landmarks_list = results.multi_hand_landmarks
 
-        hand_landmarks = results.multi_hand_landmarks[0]
+        
+        display_text, confidence, _ = predict_sign(landmarks_list)
+        confidence_text = f"{confidence*100:.1f}%"
 
-        features = []
+        
+        for hand_landmarks in landmarks_list:
+            mp_draw.draw_landmarks(
+                frame,
+                hand_landmarks,
+                mp_hands.HAND_CONNECTIONS
+            )
+    else:
+        
+        reset_on_no_hand()
 
-        for lm in hand_landmarks.landmark:
-            features.extend([lm.x, lm.y, lm.z])
+    
+    cv2.putText(frame, f"Prediction: {display_text}", (20, 40),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 0), 2)
+    cv2.putText(frame, f"Confidence: {confidence_text}", (20, 80),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255, 255, 0), 2)
+    cv2.putText(frame, f"Sentence: {sentence_text}", (20, 120),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 255), 2)
 
-        features = np.array(features).reshape(1, -1)
-        features = scaler.transform(features)
+    cv2.imshow("SignSpeak Prediction", frame)
 
-        # =========================
-        # PREDICT PROBABILITY
-        # =========================
-        probs = model.predict_proba(features)[0]
-
-        pred_index = np.argmax(probs)
-        confidence = probs[pred_index]
-
-        label = encoder.inverse_transform([pred_index])[0]
-
-        # =========================
-        # UNKNOWN DETECTION
-        # =========================
-        if confidence < CONF_THRESHOLD:
-            label = "Unknown"
-        else:
-            pred_buffer.append(label)
-
-        # =========================
-        # TEMPORAL SMOOTHING
-        # =========================
-        if len(pred_buffer) > 0:
-            most_common = Counter(pred_buffer).most_common(1)[0][0]
-            stable_prediction = most_common
-
-        prediction_text = label
-        confidence_text = f"{confidence:.2f}"
-
-        # draw landmarks
-        mp_draw.draw_landmarks(
-            frame,
-            hand_landmarks,
-            mp_hands.HAND_CONNECTIONS
-        )
-
-    # =====================================
-    # UI TEXT
-    # =====================================
-
-    cv2.putText(
-        frame,
-        f"Raw: {prediction_text}",
-        (20, 50),
-        cv2.FONT_HERSHEY_SIMPLEX,
-        0.9,
-        (0, 255, 0),
-        2
-    )
-
-    cv2.putText(
-        frame,
-        f"Stable: {stable_prediction}",
-        (20, 90),
-        cv2.FONT_HERSHEY_SIMPLEX,
-        0.9,
-        (255, 255, 0),
-        2
-    )
-
-    cv2.putText(
-        frame,
-        f"Confidence: {confidence_text}",
-        (20, 130),
-        cv2.FONT_HERSHEY_SIMPLEX,
-        0.9,
-        (0, 200, 255),
-        2
-    )
-
-    cv2.imshow("SignSpeak Pro", frame)
-
+    
     key = cv2.waitKey(1)
+    if key == ord("c"):
+        clear_sentence()
+        print("Sentence Cleared")
     if key == 27:
         break
 
