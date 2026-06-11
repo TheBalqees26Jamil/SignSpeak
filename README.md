@@ -1,4 +1,4 @@
-# SignSpeak - Arabic Sign Language Recognition System
+# SignSpeak - Yemeni Sign Language Recognition System
 
 <div align="center">
 
