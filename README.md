@@ -14,7 +14,7 @@
   <br>
 
   <p>
-    <strong>An intelligent system for recognizing Arabic sign language and converting it to text and spoken speech</strong>
+    <strong>An intelligent system for recognizing Yemeni sign language and converting it to text and spoken speech</strong>
   </p>
 
 </div>
@@ -43,7 +43,7 @@
 
 ##  Overview
 
-**SignSpeak** is a complete system for recognizing Arabic sign language using computer vision and machine learning techniques. The system consists of three main components:
+**SignSpeak** is a complete system for recognizing Yemeni sign language using computer vision and machine learning techniques. The system consists of three main components:
 
 1. **Frontend:** An interactive web application built with HTML/CSS/JavaScript providing a live camera feed for capturing hand signs.
 2. **Backend API:** A FastAPI server that processes video frames, extracts hand landmarks, and predicts the sign.
