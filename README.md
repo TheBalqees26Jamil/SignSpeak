@@ -423,7 +423,7 @@ hands_detector = mp_hands.Hands(
 
 ##  Supported Words
 
-The system includes **32 classes** of Arabic sign language:
+The system includes **32 classes** of Yemeni sign language:
 
 | English | Arabic |
 |---------|--------|
