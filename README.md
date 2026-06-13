@@ -36,7 +36,6 @@
 - [Key Files](#-key-files)
 - [Supported Words](#-supported-words)
 - [Troubleshooting](#-troubleshooting)
-- [License](#-license)
 
 ---
 
