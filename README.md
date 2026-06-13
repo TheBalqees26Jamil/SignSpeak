@@ -9,7 +9,6 @@
   <img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black" alt="JavaScript">
   <img src="https://img.shields.io/badge/MediaPipe-FF6F00?logo=mediapipe&logoColor=white" alt="MediaPipe">
   <img src="https://img.shields.io/badge/Scikit--Learn-F7931E?logo=scikit-learn&logoColor=white" alt="Scikit-Learn">
-  <img src="https://img.shields.io/badge/License-MIT-green" alt="License">
 
   <br>
 
